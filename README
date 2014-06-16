@@ -1,0 +1,3 @@
+AtomOrder
+=========
+In this project, there are two java files, one to fix the atom order as the user-input reference file. The another file is to rename the atom as the user-input reference file so that the atoms' names in Amber-compatible file can be renamed to be Rosetta-compatible and vise versa.
