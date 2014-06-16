@@ -115,17 +115,16 @@ public class AtomOrder {
 		int number = Integer.parseInt(ref.substring(6, 11).replaceAll("\\s++", ""));
 		boolean correct = false;
 		
-		if (to_correct.contains(acid_ref)) {
+		if (to_correct.contains(acid_ref)) { 
 			if (to_correct.substring(12, 16).equals(atom_ref)) {
 				String begin = to_correct.substring(0, 7);
 				String end = to_correct.substring(12);
-		
+				
 				output.printf("%s %3s %s %n", begin, number, end);
 				correct = true;
 			}
 		}
 		return correct;
-
 	}
 
 	/**
@@ -144,6 +143,7 @@ public class AtomOrder {
 		String output_name;
 //		= cor_filename.substring(0,	cor_filename.length() - 4) + "_corrected.pdb"
 		try {
+//			To print a single file
 //			 output = new PrintWriter(output_name);
 
 			read_correct = new BufferedReader(new FileReader(cor_filename));
@@ -151,30 +151,28 @@ public class AtomOrder {
 			File input = new File(cor_filename);
 			String directory = input.getParent();
 			
-			output = new PrintWriter(cor_filename.substring(0, cor_filename.length()-4) + "_Orderfixed.pdb");
-			
 			while (read_correct.ready()) {
 				String in_correct = read_correct.readLine();
 
 //				tracing the number of models in the file
-//				if (in_correct.contains("MODEL")) {
-//					System.out.println(in_correct);
-//					already_printed=0;
-//					printed++;
+				if (in_correct.contains("MODEL")) {
+					System.out.println(in_correct);
+					already_printed=0;
+					printed++;
 					
 //					printing each model in a file
-//					if (printed <81) {
-//						output_name = directory + "\\1PLW\\1PLW_Model" + printed + "_aa.pdb";
-//					}
-//					else if (printed > 80 && printed < 161) {
-//						output_name = directory + "\\1PLX\\1PLX_Model" + (printed-80) + "_aa.pdb";
-//					}
-//					else {
-//						output_name = directory + "\\2LWC\\2LWC_Model" + (printed-160) + "_aa.pdb";
-//					}
+					if (printed <81) {
+						output_name = directory + "\\1PLW_Model" + printed + "_aa.pdb";
+					}
+					else if (printed > 80 && printed < 161) {
+						output_name = directory + "\\1PLX_Model" + (printed-80) + "_aa.pdb";
+					}
+					else {
+						output_name = directory + "\\2LWC_Model" + (printed-160) + "_aa.pdb";
+					}
 					
-//					output = new PrintWriter(output_name);
-//				}
+					output = new PrintWriter(output_name);
+				}
 				
 				if (in_correct.startsWith("ATOM")) {
 					read_ref = new BufferedReader(new FileReader(ref_filename));
@@ -195,18 +193,13 @@ public class AtomOrder {
 					}
 				}
 				else {
-					System.out.println(in_correct);
 					output.println(in_correct);
-					
-//					for producing each model in a file
-//					if (in_correct.contains("END")) {
-//						 if ((printed == 80) || (printed == 160) || (printed == 180)) {
-//							 output.close();
-//						 }
-//					 }
+				}
+				
+				if (in_correct.contains("END")) {
+					output.close();
 				}
 			}
-			output.close();
 			read_correct.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
